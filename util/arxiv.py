@@ -28,7 +28,7 @@ def extract_paper_info(soup):
             'DOI': doi,
             'PDF Link': pdf_link,
             'Abstract': abstract,
-            "Hashed": base64.b64encode(title.encode('utf-8')).decode('utf-8')
+            "Hashed": base64.urlsafe_b64encode(title.encode('utf-8')).decode('utf-8')
         })
     return extracted_data
 
