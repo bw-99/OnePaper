@@ -3,7 +3,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import re
 import time
-import os
+import base64
 from const import CSV_PATH
 
 
@@ -11,7 +11,7 @@ from const import CSV_PATH
 def extract_paper_info(soup):
     extracted_data = []
     papers = soup.find_all('li', class_='arxiv-result')
-    for paper in papers:
+    for idx, paper in enumerate(papers):
         title = paper.find('p', class_='title').text.strip() if paper.find('p', class_='title') else None
         abstract = paper.find('span', class_='abstract-full').text.strip() if paper.find('span', class_='abstract-full') else None
         doi = None
@@ -23,14 +23,12 @@ def extract_paper_info(soup):
             if link.text.strip().lower() == 'pdf':  # Look for the link labeled 'pdf'
                 pdf_link = link['href']
         
-        # Clean the title to create a valid filename
-        clean_title = re.sub(r'[<>:"/\\|?*]', '_', title)[:100]  # Limit the filename to 100 characters
         extracted_data.append({
             'Title': title,
-            'Clean Title': clean_title,
             'DOI': doi,
             'PDF Link': pdf_link,
-            'Abstract': abstract
+            'Abstract': abstract,
+            "Hashed": base64.b64encode(title.encode('utf-8')).decode('utf-8')
         })
     return extracted_data
 
