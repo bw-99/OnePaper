@@ -15,8 +15,7 @@ def download_pdf(url, Hashed):
         with open(tmp_path, 'wb') as file:
             file.write(response.content)
     except Exception as e:
-        pass
-        # print(f'Error during download: {e}')
+        print(f'Error during download: {e}')
     return tmp_path
 
 
@@ -27,9 +26,7 @@ def parse_pdf(pdf_path, Hashed):
         with open(output_path, "w") as f:
             json.dump(article_dict, f)
     except Exception as e:
-        pass
-        # print(f'Error during download: {e}')
-    
+        print(f'Error during parsing: {e}')
     if os.path.exists(pdf_path):
         os.remove(pdf_path)
 
