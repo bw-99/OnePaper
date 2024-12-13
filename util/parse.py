@@ -4,7 +4,8 @@ from const import *
 import requests
 import json
 import tqdm
-
+import warnings
+from bs4 import XMLParsedAsHTMLWarning
 
 def download_pdf(url, Hashed):
     tmp_path = f"{PARSED_PATH}/{Hashed}.pdf"
@@ -33,6 +34,8 @@ def parse_pdf(pdf_path, Hashed):
         os.remove(pdf_path)
 
 if __name__=="__main__":
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+    
     df = pd.read_csv(CSV_PATH)
     df = df.iloc[df.notna()["PDF Link"].values]
     
@@ -42,5 +45,4 @@ if __name__=="__main__":
             continue
         pdf_path = download_pdf(url=url, Hashed=Hashed)
         parse_pdf(pdf_path=pdf_path, Hashed=Hashed)
-        break
         
