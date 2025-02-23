@@ -11,7 +11,7 @@ def load_parquet_file():
 
     try:
         df = pd.read_parquet(file_path)
-        print("Unique types in Parquet file:", df["type"].unique())  # ✅ Parquet 데이터 확인
+        print("Unique types in Parquet file:", df["type"].unique())  # Parquet 데이터 확인
 
     except Exception as e:
         pytest.fail(f"Failed to load parquet file: {e}")
